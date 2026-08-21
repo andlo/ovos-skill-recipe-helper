@@ -107,15 +107,35 @@ just means "translated" rather than "unavailable."
   tolerance for missing infoboxes and non-numbered step lists.
 
 **Still open (deferred to v1 implementation, not blocking scaffold):**
-- Recipe search/matching: exact-title lookup only (like wiki-offline)
-  vs. some notion of "recipes containing ingredient X" - the latter
-  is a meaningfully bigger feature, probably out of scope for v1.
-- Step-by-step spoken walkthrough (read one step, wait, "next step")
-  vs. read-the-whole-thing-at-once - a real UX decision, not just an
-  implementation detail.
-- `[mcp]` extras: per the pattern used on geography/geometry/holidays/
-  calculator/convert/wiki-offline, worth designing in once
-  `ovos-tool-adapters` fork lands - not before.
+- es-es parser needs to live as its own function in a per-language
+  dispatch table (`PARSERS = {"en-us": parse_en, "es-es": parse_es,
+  ...}`) rather than branching inside one generic parser - the
+  template-param structure is different enough to want isolation, not
+  an if/else tangle.
+- fr-fr/it-it/pt-pt: parser should degrade gracefully (skip/flag
+  pages that don't parse cleanly, same spirit as `{{Incomplete
+  recipe}}` filtering) rather than guess at missing structure -
+  and log a per-language parse-coverage percentage during build,
+  same idea as `ovos_localize`'s coverage scoring, so there's a real
+  number instead of an assumption.
+
+**Decided 2026-08-21, tracked as enhancement issues (not v1):**
+- Recipe search/matching: v1 ships exact-title lookup only (like
+  wiki-offline). Ingredient-based search ("recipes containing
+  chicken") is a meaningfully bigger feature - reverse index,
+  multi-result handling, cross-language ingredient-name matching -
+  tracked as [#1](https://github.com/andlo/ovos-skill-recipe-helper/issues/1).
+- Step-by-step spoken walkthrough: v1 reads the whole recipe in one
+  response. Conversational step-by-step ("next step") needs real
+  session state this portfolio doesn't have yet - tracked as
+  [#2](https://github.com/andlo/ovos-skill-recipe-helper/issues/2).
+  **v1 constraint to keep this cheap later:** store `steps` as a
+  list of strings all the way through the data pipeline, not
+  flattened into one blob at parse time.
+- `[mcp]` extra: same pattern as geography/geometry/holidays/
+  calculator/convert/wiki-offline, blocked on the `ovos-tool-adapters`
+  fork landing first - tracked as
+  [#3](https://github.com/andlo/ovos-skill-recipe-helper/issues/3).
 
 ## Category
 **Daily**
