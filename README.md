@@ -1,11 +1,12 @@
-# Recipe Helper — sourcing investigation complete, scaffolding in progress
+# Recipe Helper — v1 working end-to-end
 
-**Status: sourcing/multi-language investigation resolved and
-`data/build_data.py` working for en-us/de-de/da-dk (2026-08-21,
-tested against live wikitext, not just compiled) - see "Data
-pipeline status" below. Skill lookup logic (`__init__.py`) still a
-stub; no full data run has been done yet, only small live-sample
-tests.**
+**Status: v1 fully working end-to-end (2026-08-21) - data pipeline
+run for all 3 native languages, skill lookup logic implemented and
+tested against the real bundled data (native lookup + English-pivot
+translation fallback both confirmed live, including with a real
+NLLB model). Not yet done: `setup.py`/CI validation of the packaged
+skill, and no real device/OVOS-instance testing yet - only direct
+Python-level testing so far.**
 
 ## Data pipeline status (2026-08-21)
 
@@ -33,6 +34,35 @@ open rather than papered over:
   <lang>` against the complete candidate list) - only small live
   samples during development. Full runs, and de-de/en-us hit-rate
   numbers at scale, are still open.
+
+**Full runs completed (2026-08-21) - actual yield:**
+
+| Lang | Candidates | Recipes saved | Coverage |
+|---|---|---|---|
+| en-us | 3,850 | **3,129** | 81.3% |
+| de-de | 640 | **341** | 53.3% |
+| da-dk | 458 | **156** | 34.1% |
+
+da-dk/de-de's smaller yield (partly the Mangor exclusion above,
+partly the genuine size difference between Wikibooks' English
+Cookbook and its Danish/German counterparts - see "Multi-language"
+table) is why the skill's lookup logic doesn't stop at native data -
+see "Lookup architecture" below.
+
+## Lookup architecture: native-first, English-pivot fallback
+
+Given the yield numbers above, a Danish or German query that misses
+the small native corpus very likely still exists in the 3,129-recipe
+English one. So `__init__.py`'s `get_recipe_answer()` generalizes
+wiki-offline's Path A/Path B pattern from "per-language, all or
+nothing" to "per-query, native falls through to translated": every
+language - INCLUDING da-dk/de-de themselves - retries via
+"translate the phrase to English, look up in the big English corpus,
+translate the matched recipe back" whenever its own native lookup
+misses. Confirmed working end-to-end 2026-08-21 (real NLLB
+translation, a da-dk query for "Kachumbari" - which only exists
+natively in English - correctly found, translated, and spoken back
+in Danish, framing sentences included).
 
 ## The idea
 
