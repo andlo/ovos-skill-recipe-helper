@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-recipe-helper.andlo",
+  "source": "https://github.com/andlo/ovos-skill-recipe-helper",
+  "package_name": "ovos-skill-recipe-helper",
+  "pip_spec": "ovos-skill-recipe-helper",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Rezepthelfer",
+  "description": "Offline-Rezepte aus dem Wikibooks Kochbuch, mit Mengenumrechnung über ovos-skill-convert. Englisch, Dänisch und Deutsch sind nativ; alle anderen Sprachen werden per Offline-Übersetzung beantwortet. Keine Internetverbindung nötig.",
+  "examples": [
+    "wie mache ich Pfannkuchen",
+    "was brauche ich für Carbonara",
+    "wie viel Gramm sind 2 dl Mehl"
+  ],
+  "tags": [
+    "rezepte",
+    "kochen",
+    "essen",
+    "offline",
+    "nachschlagewerk"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-recipe-helper/main/icon.png"
+}

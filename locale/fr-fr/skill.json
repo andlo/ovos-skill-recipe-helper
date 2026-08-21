@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-recipe-helper.andlo",
+  "source": "https://github.com/andlo/ovos-skill-recipe-helper",
+  "package_name": "ovos-skill-recipe-helper",
+  "pip_spec": "ovos-skill-recipe-helper",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Assistant de recettes",
+  "description": "Recettes hors ligne issues du Livre de cuisine Wikibooks, avec conversion d'unités via ovos-skill-convert. L'anglais, le danois et l'allemand sont natifs ; toute autre langue est traitée par traduction hors ligne à la demande. Aucune connexion internet requise.",
+  "examples": [
+    "comment faire des crêpes",
+    "de quoi ai-je besoin pour une carbonara",
+    "combien de grammes fait 2 dl de farine"
+  ],
+  "tags": [
+    "recettes",
+    "cuisine",
+    "nourriture",
+    "hors ligne",
+    "référence"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-recipe-helper/main/icon.png"
+}

@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-recipe-helper.andlo",
+  "source": "https://github.com/andlo/ovos-skill-recipe-helper",
+  "package_name": "ovos-skill-recipe-helper",
+  "pip_spec": "ovos-skill-recipe-helper",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Receptenhulp",
+  "description": "Offline recepten uit het Wikibooks Kookboek, met eenheidsomrekening via ovos-skill-convert. Engels, Deens en Duits zijn native; elke andere taal wordt beantwoord via offline vertaling op aanvraag. Geen internetverbinding nodig.",
+  "examples": [
+    "hoe maak ik pannenkoeken",
+    "wat heb ik nodig voor carbonara",
+    "hoeveel gram is 2 dl bloem"
+  ],
+  "tags": [
+    "recepten",
+    "koken",
+    "eten",
+    "offline",
+    "naslagwerk"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-recipe-helper/main/icon.png"
+}

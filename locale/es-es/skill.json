@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-recipe-helper.andlo",
+  "source": "https://github.com/andlo/ovos-skill-recipe-helper",
+  "package_name": "ovos-skill-recipe-helper",
+  "pip_spec": "ovos-skill-recipe-helper",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Ayudante de recetas",
+  "description": "Recetas sin conexión de Artes culinarias en Wikibooks, con conversión de unidades vía ovos-skill-convert. Inglés, danés y alemán son nativos; cualquier otro idioma se responde mediante traducción sin conexión. No requiere internet.",
+  "examples": [
+    "cómo hago panqueques",
+    "qué necesito para una carbonara",
+    "cuántos gramos son 2 dl de harina"
+  ],
+  "tags": [
+    "recetas",
+    "cocina",
+    "comida",
+    "sin conexión",
+    "referencia"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-recipe-helper/main/icon.png"
+}

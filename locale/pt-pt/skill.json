@@ -1,0 +1,23 @@
+{
+  "skill_id": "ovos-skill-recipe-helper.andlo",
+  "source": "https://github.com/andlo/ovos-skill-recipe-helper",
+  "package_name": "ovos-skill-recipe-helper",
+  "pip_spec": "ovos-skill-recipe-helper",
+  "license": "GPL-3.0-or-later",
+  "author": "andlo",
+  "name": "Assistente de receitas",
+  "description": "Receitas offline do Livro de receitas da Wikibooks, com conversão de unidades via ovos-skill-convert. Inglês, dinamarquês e alemão são nativos; qualquer outro idioma é respondido por tradução offline sob demanda. Não requer internet.",
+  "examples": [
+    "como faço panquecas",
+    "o que preciso para uma carbonara",
+    "quantos gramas são 2 dl de farinha"
+  ],
+  "tags": [
+    "receitas",
+    "culinária",
+    "comida",
+    "offline",
+    "referência"
+  ],
+  "icon": "https://raw.githubusercontent.com/andlo/ovos-skill-recipe-helper/main/icon.png"
+}
