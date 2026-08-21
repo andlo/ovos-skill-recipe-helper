@@ -20,11 +20,15 @@ open rather than papered over:
   list-style assumption (numbered-only missed real recipes using `*`
   or `:` instead of `#`) - remaining misses are a mix of genuine
   non-recipe pages (technique articles, category-index pages) and...
-- **known gap, not solved**: ~20% of da-dk recipes use a third
-  infobox family (`{{WikiKogebogen/Mangor}}`) with prose-only
-  content and no extractable ingredients/steps structure at all -
-  see [#4](https://github.com/andlo/ovos-skill-recipe-helper/issues/4),
-  flagged for a decision rather than force-fit into the data model.
+- **decided, permanently out of scope**: ~20% of da-dk recipes use a
+  third infobox family (`{{WikiKogebogen/Mangor}}`), prose-only
+  historical recipes with no ingredients/steps structure to extract.
+  Decided 2026-08-21 ([#4](https://github.com/andlo/ovos-skill-recipe-helper/issues/4),
+  closed) to exclude these from this skill entirely rather than
+  force-fit or special-case them - da-dk-only, prose content, not
+  the ingredients+steps interaction this skill is built around. If
+  ever built, the right shape is a separate skill (offline
+  historical/heritage-recipe reader), not an extension of this one.
 - No full data run has been executed yet (`python3 data/build_data.py
   <lang>` against the complete candidate list) - only small live
   samples during development. Full runs, and de-de/en-us hit-rate

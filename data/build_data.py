@@ -330,19 +330,22 @@ def parse_da_recipe(title, wikitext):
     Infobox is metadata only, not the quality gate - see
     parse_en_recipe()'s docstring for why (same reasoning applies).
 
-    KNOWN GAP, NOT HANDLED: {{WikiKogebogen/Mangor|...}} is a THIRD
-    infobox family (~20% of a 60-page live sample, 2026-08-21) used
-    for historical recipes apparently sourced from an old physical
-    cookbook ("Mangor's Kogebog" per earlier research). These have NO
-    ingredients/steps STRUCTURE at all - just free-flowing prose
-    describing the dish, no bullets, no numbers, no colon-indents.
-    Forcing that into ingredients/steps would mean inventing
-    structure the source doesn't have. Deliberately returns None for
-    these (same as a genuine non-recipe page) rather than a fragile
-    prose-splitting heuristic - see README.md/issue tracker for
-    whether/how to handle this class of page (e.g. a separate
-    'read the description aloud' answer shape, distinct from the
-    ingredients+steps shape everything else uses)."""
+    DECIDED, OUT OF SCOPE (not a bug, not deferred):
+    {{WikiKogebogen/Mangor|...}} is a THIRD infobox family (~20% of a
+    60-page live sample, 2026-08-21) used for historical recipes
+    apparently sourced from an old physical cookbook ("Mangor's
+    Kogebog" per earlier research). These have NO ingredients/steps
+    STRUCTURE at all - just free-flowing prose describing the dish,
+    no bullets, no numbers, no colon-indents. Decided 2026-08-21 (see
+    closed issue #4) to permanently exclude these from this skill:
+    it's da-dk-only with no en-us/de-de equivalent, and it's prose
+    content, not the ingredients+steps interaction this skill is
+    built around - the right fit for this, if ever built, is a
+    separate skill (e.g. an offline historical/heritage-recipe
+    reader), not a special case bolted onto this one. Returns None
+    for these, same as a genuine non-recipe page - no fragile
+    prose-splitting heuristic needed since this is intentionally out
+    of scope, not a gap to work around."""
     m = re.search(r"\{\{\s*Infoboks opskrift\b(.*?)\}\}", wikitext,
                   re.DOTALL | re.IGNORECASE)
     fields = _extract_fields(m.group(1)) if m else {}
