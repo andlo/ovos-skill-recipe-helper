@@ -1,8 +1,34 @@
 # Recipe Helper — sourcing investigation complete, scaffolding in progress
 
-**Status: sourcing and multi-language investigation resolved
-(2026-08-21); scaffold underway, data pipeline and skill logic not
-yet implemented.**
+**Status: sourcing/multi-language investigation resolved and
+`data/build_data.py` working for en-us/de-de/da-dk (2026-08-21,
+tested against live wikitext, not just compiled) - see "Data
+pipeline status" below. Skill lookup logic (`__init__.py`) still a
+stub; no full data run has been done yet, only small live-sample
+tests.**
+
+## Data pipeline status (2026-08-21)
+
+`data/build_data.py` discovers and parses recipes for the three
+native languages. Verified against real pages, not just written and
+assumed correct - three parsing bugs were found and fixed this way
+(see commit history), and one gap was found and deliberately left
+open rather than papered over:
+
+- **en-us, de-de, da-dk** all parse correctly on spot-checked pages.
+- **da-dk hit rate**: 12/20 on a live sample after fixing the
+  list-style assumption (numbered-only missed real recipes using `*`
+  or `:` instead of `#`) - remaining misses are a mix of genuine
+  non-recipe pages (technique articles, category-index pages) and...
+- **known gap, not solved**: ~20% of da-dk recipes use a third
+  infobox family (`{{WikiKogebogen/Mangor}}`) with prose-only
+  content and no extractable ingredients/steps structure at all -
+  see [#4](https://github.com/andlo/ovos-skill-recipe-helper/issues/4),
+  flagged for a decision rather than force-fit into the data model.
+- No full data run has been executed yet (`python3 data/build_data.py
+  <lang>` against the complete candidate list) - only small live
+  samples during development. Full runs, and de-de/en-us hit-rate
+  numbers at scale, are still open.
 
 ## The idea
 
