@@ -63,7 +63,7 @@ import re
 from pathlib import Path
 
 from ovos_workshop.skills.fallback import FallbackSkill
-from ovos_workshop.decorators import common_query, fallback_handler
+from ovos_workshop.decorators import common_query, fallback_handler, intent_handler
 from ovos_utils.parse import match_one
 
 SKILL_ROOT = Path(__file__).resolve().parent
@@ -113,22 +113,29 @@ ALL_TITLES_LOWER_BY_LANG = {
 QUESTION_PREFIXES = {
     "en-us": [
         "how do i make ", "how do you make ", "how to make ",
+        "how do i cook ", "how do i bake ", "how do you cook ", "how do you bake ",
         "what do i need for ", "what do i need to make ",
         "what ingredients do i need for ",
         "recipe for ", "give me a recipe for ", "give me the recipe for ",
     ],
     "da-dk": [
         "hvordan laver jeg ", "hvordan laves ", "hvordan tilbereder jeg ",
+        "hvordan bager jeg ", "hvordan koger jeg ",
         "hvad skal jeg bruge til ", "hvad skal der bruges til ",
         "hvilke ingredienser skal jeg bruge til ",
         "opskrift på ", "giv mig en opskrift på ", "giv mig opskriften på ",
     ],
     "de-de": [
         "wie mache ich ", "wie macht man ", "wie bereite ich zu ",
+        "wie koche ich ", "wie backe ich ",
         "was brauche ich für ", "welche zutaten brauche ich für ",
         "rezept für ", "gib mir ein rezept für ",
     ],
 }
+
+
+# articles in front of a dish: "how do i make a cake", "en kage", "einen Kuchen"
+ARTICLES = r"^(?:a|an|the|some|en|et|nogle|ein|eine|einen|einem)\s+"
 
 
 def _strip_question_prefix(phrase, lang):
@@ -148,7 +155,7 @@ def resolve_recipe_key(dish_name, lang):
     if not dish_name or lang not in RECIPES_BY_LANG:
         return None
     title_index = TITLE_INDEX_BY_LANG[lang]
-    key = dish_name.strip().lower()
+    key = re.sub(ARTICLES, "", dish_name.strip().lower()).strip()
     if key in title_index:
         return title_index[key]
     all_titles = ALL_TITLES_LOWER_BY_LANG.get(lang, [])
@@ -157,7 +164,36 @@ def resolve_recipe_key(dish_name, lang):
     match, score = match_one(key, all_titles)
     if score >= FUZZY_MATCH_THRESHOLD:
         return title_index[match]
+    # "pancakes" -> "Blueberry Pancakes", "carbonara" -> "Carbonara Pasta":
+    # the dish as a whole word (singular or plural) in a title, shortest
+    # title first. Only for a real word, so "tea" or "a" pick nothing.
+    # Danish/German compounds end in the dish ("kikærtepandekage",
+    # "eierpfannkuchen") and have other plurals ("pandekager").
+    if len(key) < 4:
+        return None
+    compound = lang in ("da-dk", "de-de")
+    endings = ("s", "es", "r", "er", "n", "en") if compound else ("s", "es")
+    stems = [key] + [key[:-len(e)] for e in endings if key.endswith(e) and len(key) - len(e) >= 4]
+    for stem in stems:
+        head = "" if compound else r"(?<!\w)"
+        pattern = re.compile(rf"{head}{re.escape(stem)}(?:{'|'.join(endings)})?(?!\w)")
+        found = [t for t in all_titles if pattern.search(t)]
+        if found:
+            return title_index[min(found, key=len)]
     return None
+
+
+def is_exact_recipe(phrase, lang):
+    """True when the dish in `phrase` is a recipe title as it stands
+    ("how do i make pancakes" and a recipe called "Pancakes"), not just a
+    fuzzy guess - enough to answer Common Query with full confidence."""
+    dish_name = _strip_question_prefix(phrase, lang)
+    dish = re.sub(ARTICLES, "", (dish_name or "").strip().lower()).strip()
+    return bool(dish) and dish in TITLE_INDEX_BY_LANG.get(lang, {})
+
+
+# the prefix the recipe intent's {dish} is looked up with
+RECIPE_PREFIX = {"en-us": "recipe for ", "da-dk": "opskrift på ", "de-de": "rezept für "}
 
 
 def lookup_recipe(phrase, lang):
@@ -347,34 +383,46 @@ class RecipeHelper(FallbackSkill):
     catches whatever the rest of the pipeline didn't answer."""
 
     def can_answer(self, message):
-        """Lightweight pre-check for the fallback 'ping' broadcast -
-        real work happens in handle_fallback(). Never calls
-        _get_translator() here - see that function's docstring for
-        why (can BLOCK ~40s, would miss the ping's response window,
-        confirmed live during wiki-offline's development).
+        """Pre-check for the fallback 'ping': True only when the sentence
+        asks how to make a dish this skill has a recipe for (issue #5).
 
-        For a RECIPE_LANGS language: a native prefix match is enough
-        to answer True immediately, no translator needed. If there's
-        NO native prefix match (or the language isn't RECIPE_LANGS
-        at all), falls back to the same cheap _translator_configured()
-        check wiki-offline uses - this only tells us translation is
-        WORTH TRYING, not that the phrase will actually resolve to a
-        real recipe; handle_fallback()/handle_common_query() do the
-        real lookup and may still come up empty."""
+        It used to say yes whenever a translator was configured, for any
+        sentence at all, so the fallback stage handed this skill "set
+        intercom name to living room" and "can you see my Sony TV" - and
+        they got no answer. The native lookup is an index lookup (plus a
+        fuzzy match), fast enough for the ping. Translated lookups can
+        block for ~40 s loading a model and stay with Common Query."""
         utterances = message.data.get("utterances") or []
         if not utterances:
             return False
         lang = message.data.get("lang", self.lang).lower()
-        if lang in RECIPE_LANGS and _strip_question_prefix(utterances[0], lang) is not None:
-            return True
-        return _translator_configured()
+        return lang in RECIPE_LANGS and lookup_recipe(utterances[0], lang) is not None
 
     @common_query()
     def handle_common_query(self, phrase, lang):
-        answer = get_recipe_answer(phrase, lang.lower())
+        lang = lang.lower()
+        answer = get_recipe_answer(phrase, lang)
         if answer is None:
             return None
-        return answer, 0.8
+        # a recipe with exactly that title beats a general knowledge
+        # answer ("what do I need for carbonara" went to wolfie at 0.8)
+        return answer, (1.0 if is_exact_recipe(phrase, lang) else 0.8)
+
+    @intent_handler("recipe.intent")
+    def handle_recipe(self, message):
+        """"Recipe for X", "how do I bake X": unambiguous, so this skill's own
+        intent (issue #5: common query and the fallback come too late, and
+        other skills answered first)."""
+        lang = (message.data.get("lang") or self.lang).lower()
+        dish = (message.data.get("dish") or "").strip()
+        if not dish:
+            return
+        prefix = RECIPE_PREFIX.get(lang, RECIPE_PREFIX["en-us"])
+        answer = get_recipe_answer(prefix + dish, lang)
+        if answer is None:
+            self.speak_dialog("no_recipe", {"dish": dish})
+            return
+        self.speak(answer)
 
     @fallback_handler(priority=85)
     def handle_fallback(self, message):
