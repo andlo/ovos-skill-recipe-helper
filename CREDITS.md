@@ -1,4 +1,4 @@
-# Data credits and licensing (scaffold - no data bundled yet)
+# Data credits and licensing
 
 ## Source
 
