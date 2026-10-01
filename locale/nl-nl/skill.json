@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Receptenhulp",
-  "description": "Offline recepten uit het Wikibooks Kookboek, met eenheidsomrekening via ovos-skill-convert. Engels, Deens en Duits zijn native; elke andere taal wordt beantwoord via offline vertaling op aanvraag. Geen internetverbinding nodig.",
+  "description": "Offline recepten uit het Wikibooks Kookboek. Engels, Deens en Duits zijn ingebouwd; andere talen worden beantwoord via offline vertaling op aanvraag. Geen internetverbinding nodig.",
   "examples": [
     "hoe maak ik pannenkoeken",
     "wat heb ik nodig voor carbonara",

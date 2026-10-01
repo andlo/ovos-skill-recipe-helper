@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Rezepthelfer",
-  "description": "Offline-Rezepte aus dem Wikibooks Kochbuch, mit Mengenumrechnung über ovos-skill-convert. Englisch, Dänisch und Deutsch sind nativ; alle anderen Sprachen werden per Offline-Übersetzung beantwortet. Keine Internetverbindung nötig.",
+  "description": "Offline-Rezepte aus dem Wikibooks-Kochbuch. Englisch, Dänisch und Deutsch sind eingebaut; andere Sprachen werden per Offline-Übersetzung beantwortet. Keine Internetverbindung nötig.",
   "examples": [
     "wie mache ich Pfannkuchen",
     "was brauche ich für Carbonara",

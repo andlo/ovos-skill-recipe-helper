@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Ayudante de recetas",
-  "description": "Recetas sin conexión de Artes culinarias en Wikibooks, con conversión de unidades vía ovos-skill-convert. Inglés, danés y alemán son nativos; cualquier otro idioma se responde mediante traducción sin conexión. No requiere internet.",
+  "description": "Recetas sin conexión de Artes culinarias en Wikibooks. Inglés, danés y alemán vienen incluidos; los demás idiomas se responden mediante traducción sin conexión. No requiere internet.",
   "examples": [
     "cómo hago panqueques",
     "qué necesito para una carbonara",

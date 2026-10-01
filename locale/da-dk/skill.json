@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Opskriftshjælper",
-  "description": "Offline opskrifter fra Wikibooks Cookbook, med mål-omregning via ovos-skill-convert. Engelsk, dansk og tysk er indbygget; alle andre sprog besvares via offline-oversættelse. Ingen internetforbindelse nødvendig.",
+  "description": "Offline opskrifter fra Wikibooks' kogebøger. Engelsk, dansk og tysk er indbygget; andre sprog besvares via offline-oversættelse. Ingen internetforbindelse nødvendig.",
   "examples": [
     "hvordan laver jeg pandekager",
     "hvad skal jeg bruge til carbonara",

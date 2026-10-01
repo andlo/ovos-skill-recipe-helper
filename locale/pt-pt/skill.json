@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Assistente de receitas",
-  "description": "Receitas offline do Livro de receitas da Wikibooks, com conversão de unidades via ovos-skill-convert. Inglês, dinamarquês e alemão são nativos; qualquer outro idioma é respondido por tradução offline sob demanda. Não requer internet.",
+  "description": "Receitas offline do Livro de receitas da Wikibooks. Inglês, dinamarquês e alemão vêm incluídos; os outros idiomas são respondidos por tradução offline a pedido. Não requer internet.",
   "examples": [
     "como faço panquecas",
     "o que preciso para uma carbonara",

@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Recipe Helper",
-  "description": "Offline recipes sourced from Wikibooks Cookbook, with unit conversion via ovos-skill-convert. English, Danish, and German are native; any other language is answered via on-demand offline translation. No internet connection needed.",
+  "description": "Offline recipes from the Wikibooks Cookbook. English, Danish and German are built in; other languages are answered through on-demand offline translation. No internet connection needed.",
   "examples": [
     "how do I make pancakes",
     "what do I need for carbonara",

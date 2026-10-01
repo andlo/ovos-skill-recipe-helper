@@ -6,7 +6,7 @@
   "license": "GPL-3.0-or-later",
   "author": "andlo",
   "name": "Assistant de recettes",
-  "description": "Recettes hors ligne issues du Livre de cuisine Wikibooks, avec conversion d'unités via ovos-skill-convert. L'anglais, le danois et l'allemand sont natifs ; toute autre langue est traitée par traduction hors ligne à la demande. Aucune connexion internet requise.",
+  "description": "Recettes hors ligne issues du Livre de cuisine Wikibooks. L'anglais, le danois et l'allemand sont intégrés ; les autres langues passent par une traduction hors ligne à la demande. Aucune connexion internet requise.",
   "examples": [
     "comment faire des crêpes",
     "de quoi ai-je besoin pour une carbonara",
