@@ -1,5 +1,2 @@
-# Depends on ovos-skill-convert for unit conversion inside recipes
-# ("how many grams is 2 dl of flour") - reuses its 19 existing
-# categories rather than duplicating conversion logic. Not yet listed
-# as a hard pip dependency until the actual call pattern (in-process
-# vs Common Query round-trip) is decided during implementation.
+ovos-workshop
+ovos-utils

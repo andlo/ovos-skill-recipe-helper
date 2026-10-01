@@ -43,8 +43,9 @@ def get_requirements(requirements_filename: str):
 
 
 def find_resource_files():
-    resource_base_dirs = ("locale", "regex", "ui", "data")
-    package_data = ["*.json"]
+    resource_base_dirs = ("locale", "regex", "ui")
+    # data/: only the built recipe files, not the build script
+    package_data = ["*.json", "data/*.json"]
     for res in resource_base_dirs:
         if path.isdir(path.join(BASE_PATH, res)):
             for directory, _, files in walk(path.join(BASE_PATH, res)):
@@ -60,7 +61,7 @@ with open("README.md", "r") as f:
 setup(
     name=PYPI_NAME,
     version=get_version(),
-    description="Fully offline recipe skill for OVOS, sourced from Wikibooks Cookbook - depends on ovos-skill-convert for unit conversion",
+    description="Offline cookbook skill for OVOS - recipes from Wikibooks, no internet needed",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=URL,
@@ -73,7 +74,7 @@ setup(
     license="GPL-3.0-or-later",
     python_requires=">=3.9",
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 3 - Alpha",
         "Intended Audience :: End Users/Desktop",
         "Programming Language :: Python :: 3",
         "Topic :: Multimedia :: Sound/Audio :: Speech",
